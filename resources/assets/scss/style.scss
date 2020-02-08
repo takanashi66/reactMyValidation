@@ -1,0 +1,66 @@
+@charset "UTF-8";
+
+//*------------------------------------*//
+//	Base
+//*------------------------------------*//
+
+@import 'base/reset',
+        'base/var',
+        'base/default';
+
+
+
+
+
+
+//*------------------------------------*//
+//	page
+//*------------------------------------*//
+@import 'page/form';
+
+body{
+    background-color: #e2e2e2;
+}
+
+.header{
+    padding: 30px;
+    background-color: #3e3e3e;
+    
+    h1{
+        font-size: 2rem;
+        text-align: center;
+        color: #f2f2f2;
+    }
+}
+
+.main{
+    flex: 1;
+    max-width: 980px;
+    margin: 50px auto;
+    padding: 40px 16px;
+    background-color: #fff;
+}
+
+h2{
+    font-size: 2rem;
+    color: #3e3e3e;
+    margin-bottom: 30px;
+}
+
+.footer{
+    background-color: #3e3e3e;
+    padding: 16px;
+    color: #fff;
+}
+
+.radio_wrap{
+    display: flex;
+    
+    label{
+        margin: 0;
+        
+        &:not(:last-child){
+            margin-right: 10px;
+        }
+    }
+}

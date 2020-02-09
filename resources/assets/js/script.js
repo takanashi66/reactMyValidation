@@ -19,20 +19,35 @@ class App extends Component {
                 email: '',
                 zip: '',
                 tel: '',
-            }]
+            }],
+            hasError: [{
+                name: true,
+                email: true,
+                zip: true,
+                tel: true,
+            }],
+            disabled: true
         }
     }
     
     render(){
         
-        console.log(this.state.form)
-        console.log(this.state.message)
+        // console.log(this.state.form)
+        // console.log(this.state.message)
+        // console.log(this.state.hasError)
+        // console.log("disabled : " + this.state.disabled)
         
         //エラーメッセージを格納する関数
         const setMessage = (inputName, errorMessage) =>{
-            const copy = this.state.message.slice();
-            copy[0][inputName] = errorMessage
-            this.setState({message: copy})
+            const message_copy = this.state.message.slice();
+            message_copy[0][inputName] = errorMessage
+            this.setState({message: message_copy})
+            
+            if(errorMessage != ""){
+                const hasError_copy = this.state.hasError.slice();
+                hasError_copy[0][inputName] = true
+                this.setState({hasError: hasError_copy})
+            }
         }
         
         //valueを格納する関数
@@ -40,8 +55,13 @@ class App extends Component {
             const copy = this.state.form.slice();
             copy[0][inputName] = formData
             this.setState({form: copy})
+            
+            const hasError_copy = this.state.hasError.slice();
+            hasError_copy[0][inputName] = false
+            this.setState({hasError: hasError_copy})
         }
         
+        //バリデーション項目
         const validationEntry = (value, inputName, validation) => {
             if(validation.includes('required')){
                 if(!value){
@@ -99,6 +119,12 @@ class App extends Component {
             const validation = e.target.getAttribute('data-validation').split(" ")
             
             validationEntry(value, inputName, validation)
+            
+            if(!this.state.hasError[0].name && !this.state.hasError[0].email && !this.state.hasError[0].zip  && !this.state.hasError[0].tel){
+                this.setState({disabled: false})
+            }else{
+                this.setState({disabled: true})
+            }
             
         }
         

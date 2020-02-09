@@ -26,7 +26,7 @@ const Form = props =>{
                 <input type="tel" name="tel" id="tel" data-validation="required tel" onBlur={ props.checkValidation } onChange={ props.checkValidation }/>
                 { !(props.data.message[0].tel)? "": <p className="errmsg">{ props.data.message[0].tel }</p> }
                 
-                <input type="submit" value="送信"/>
+                <input type="submit" value="送信" disabled={ props.data.disabled }/>
             
             </form>
         </div>

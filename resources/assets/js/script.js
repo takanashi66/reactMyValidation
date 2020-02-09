@@ -42,17 +42,11 @@ class App extends Component {
             this.setState({form: copy})
         }
         
-        const checkValidation = (e) =>{
-            const value = e.target.value
-            const inputName = e.target.getAttribute('name')
-            const validation = e.target.getAttribute('data-validation').split(" ")
-            
+        const validationEntry = (value, inputName, validation) => {
             if(validation.includes('required')){
                 if(!value){
                     //エラーメッセージをセット
                     setMessage(inputName, "空です。")
-                    
-                    return false;
                 }else{
                     //バリデーションを通ったデータを格納
                     setForm(inputName, value)
@@ -72,7 +66,6 @@ class App extends Component {
                     //エラーメッセージをセット
                     setMessage(inputName, "メールアドレスの形式が違う。")
                 }
-                console.log("email通過");
             }
             
             if(validation.includes('tel')){
@@ -100,10 +93,17 @@ class App extends Component {
             }
         }
         
+        const checkValidation = (e) =>{
+            const value = e.target.value
+            const inputName = e.target.getAttribute('name')
+            const validation = e.target.getAttribute('data-validation').split(" ")
+            
+            validationEntry(value, inputName, validation)
+            
+        }
+        
         const onSubmit = (e) => {
             e.preventDefault()
-            
-            alert("サブミット")
         }
         
         return(

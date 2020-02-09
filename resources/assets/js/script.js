@@ -51,6 +51,8 @@ class App extends Component {
                 if(!value){
                     //エラーメッセージをセット
                     setMessage(inputName, "空です。")
+                    
+                    return false;
                 }else{
                     //バリデーションを通ったデータを格納
                     setForm(inputName, value)

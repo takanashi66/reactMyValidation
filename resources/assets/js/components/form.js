@@ -9,7 +9,7 @@ const Form = props =>{
         <div className="form">
             <h2>Form</h2>
             
-            <form onSubmit={ props.onSubmit }>
+            <form onSubmit={ props.onSubmit } noValidate>
             
                 <label htmlFor="name">名前</label>
                 <input type="text" name="name" id="name" data-validation="required" onBlur={ props.checkValidation }/>

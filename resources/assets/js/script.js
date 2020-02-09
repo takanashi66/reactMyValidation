@@ -43,10 +43,21 @@ class App extends Component {
         }
         
         const checkValidation = (e) =>{
-            let s = []
             const value = e.target.value
             const inputName = e.target.getAttribute('name')
             const validation = e.target.getAttribute('data-validation').split(" ")
+            
+            if(validation.includes('required')){
+                if(!value){
+                    //エラーメッセージをセット
+                    setMessage(inputName, "空です。")
+                }else{
+                    //バリデーションを通ったデータを格納
+                    setForm(inputName, value)
+                    //エラーメッセージを削除
+                    setMessage(inputName, "")
+                }
+            }
             
             if(validation.includes('email')){
                 if(value.match(/^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/)){
@@ -54,11 +65,12 @@ class App extends Component {
                     setForm(inputName, value)
                     //エラーメッセージを削除
                     setMessage(inputName, "")
-                    
+                
                 }else{
                     //エラーメッセージをセット
                     setMessage(inputName, "メールアドレスの形式が違う。")
                 }
+                console.log("email通過");
             }
             
             if(validation.includes('tel')){
@@ -82,18 +94,6 @@ class App extends Component {
                 }else{
                     //エラーメッセージをセット
                     setMessage(inputName, "郵便番号の形式が違う。")
-                }
-            }
-            
-            if(validation.includes('required')){
-                if(!value){
-                    //エラーメッセージをセット
-                    setMessage(inputName, "空です。")
-                }else{
-                    //バリデーションを通ったデータを格納
-                    setForm(inputName, value)
-                    //エラーメッセージを削除
-                    setMessage(inputName, "")
                 }
             }
         }

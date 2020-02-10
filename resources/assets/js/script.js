@@ -13,18 +13,21 @@ class App extends Component {
                 email: '',
                 zip: '',
                 tel: '',
+                remarks: '',
             }],
             message: [{
                 name: '',
                 email: '',
                 zip: '',
                 tel: '',
+                remarks: '',
             }],
             hasError: [{
                 name: true,
                 email: true,
                 zip: true,
                 tel: true,
+                remarks: false,//必須ではないのでfalse始まり
             }],
             disabled: true
         }
@@ -61,6 +64,71 @@ class App extends Component {
             this.setState({hasError: hasError_copy})
         }
         
+        //最大文字数のバリデーション
+        const maxValueLength = (max, inputName, value) => {
+            console.log(value.length);
+            
+            if(value.length <= max){
+                //バリデーションを通ったデータを格納
+                setForm(inputName, value)
+                //エラーメッセージを削除
+                setMessage(inputName, "")
+            }else{
+                //エラーメッセージをセット
+                setMessage(inputName, max + "文字以内で入力してください。")
+            }
+        }
+        
+        //最小文字数のバリデーション
+        const minValueLength = (min, inputName, value) => {
+            if(value.length >= min){
+                //バリデーションを通ったデータを格納
+                setForm(inputName, value)
+                //エラーメッセージを削除
+                setMessage(inputName, "")
+            }else{
+                //エラーメッセージをセット
+                setMessage(inputName, min + "文字以上で入力してください。")
+            }
+        }
+        
+        //最大値最小値両方あった場合のバリデーション
+        const minMaxValueLength = (min, max, inputName, value) => {
+            if(value.length >= min && value.length <= max){
+                //バリデーションを通ったデータを格納
+                setForm(inputName, value)
+                //エラーメッセージを削除
+                setMessage(inputName, "")
+            }else{
+                //エラーメッセージをセット
+                setMessage(inputName, min + "文字以上" + max + "文字以下で入力してください。")
+            }
+        }
+        
+        //minの数値を取得する関数
+        const getMin = (minmax) =>{
+            let min = 0
+            minmax.map(i=>{
+                if(/^min/.test(i)){
+                    min = i.slice(3)
+                    return min
+                }
+            })
+            return min
+        }
+        
+        //maxの数値を取得する関数
+        const getMax = (minmax) =>{
+            let max = 0
+            minmax.map(i=>{
+                if(/^max/.test(i)){
+                    max = i.slice(3)
+                    return max
+                }
+            })
+            return max
+        }
+        
         //バリデーション項目
         const validationEntry = (value, inputName, validation) => {
             if(validation.includes('required')){
@@ -73,6 +141,30 @@ class App extends Component {
                     //エラーメッセージを削除
                     setMessage(inputName, "")
                 }
+            }
+            
+            //min max を取得
+            const minmax = validation.filter(RegExp.prototype.test.bind(/^(max|min)[0-9]+/))
+            
+            switch (minmax.length) {
+                case 1:
+                    minmax.map(i=>{
+                        if(/^min/.test(i)){
+                            let min = i.slice(3)
+                            minValueLength(min, inputName, value)
+                        }
+            
+                        if(/^max/.test(i)){
+                            let max = i.slice(3)
+                            maxValueLength(max, inputName, value)
+                        }
+                    })
+                    break;
+                case 2:
+                    minMaxValueLength(Number(getMin(minmax)), Number(getMax(minmax)), inputName, value)
+                    break;
+                default:
+                    break;
             }
             
             if(validation.includes('email')){
@@ -113,6 +205,7 @@ class App extends Component {
             }
         }
         
+        //バリデーションチェック
         const checkValidation = (e) =>{
             const value = e.target.value
             const inputName = e.target.getAttribute('name')
@@ -120,7 +213,7 @@ class App extends Component {
             
             validationEntry(value, inputName, validation)
             
-            if(!this.state.hasError[0].name && !this.state.hasError[0].email && !this.state.hasError[0].zip  && !this.state.hasError[0].tel){
+            if(!this.state.hasError[0].name && !this.state.hasError[0].email && !this.state.hasError[0].zip  && !this.state.hasError[0].tel && !this.state.hasError[0].remarks){
                 this.setState({disabled: false})
             }else{
                 this.setState({disabled: true})

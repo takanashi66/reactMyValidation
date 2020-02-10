@@ -19,12 +19,16 @@ const Form = props =>{
                 { !(props.data.message[0].email)? "": <p className="errmsg">{ props.data.message[0].email }</p> }
                 
                 <label htmlFor="zip">郵便番号</label>
-                <input type="text" name="zip" id="zip" data-validation="required zip" onBlur={ props.checkValidation } onChange={ props.checkValidation }/>
+                <input type="text" name="zip" id="zip" data-validation="required min7 max8 zip" onBlur={ props.checkValidation } onChange={ props.checkValidation }/>
                 { !(props.data.message[0].zip)? "": <p className="errmsg">{ props.data.message[0].zip }</p> }
                 
                 <label htmlFor="tel">電話番号</label>
                 <input type="tel" name="tel" id="tel" data-validation="required tel" onBlur={ props.checkValidation } onChange={ props.checkValidation }/>
                 { !(props.data.message[0].tel)? "": <p className="errmsg">{ props.data.message[0].tel }</p> }
+                
+                <label htmlFor="remarks">備考</label>
+                <textarea name="remarks" id="remarks" cols="30" rows="10" data-validation="textarea min5 max10" onBlur={ props.checkValidation } onChange={ props.checkValidation }></textarea>
+                { !(props.data.message[0].remarks)? "": <p className="errmsg">{ props.data.message[0].remarks }</p> }
                 
                 <input type="submit" value="送信" disabled={ props.data.disabled }/>
             

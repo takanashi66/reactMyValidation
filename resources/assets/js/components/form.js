@@ -11,7 +11,7 @@ const Form = props =>{
             <form name="f" onSubmit={ props.onSubmit } noValidate>
             
                 <label htmlFor="name">名前</label>
-                <input type="text" name="name" id="name" data-validation="required" onBlur={ props.checkValidation } onChange={ props.checkValidation }/>
+                <input type="text" name="name" id="name" data-validation="required" onBlur={ props.checkValidation }/>
                 { !(props.data.message[0].name)? "": <p className="errmsg">{ props.data.message[0].name }</p> }
                 
                 <label htmlFor="email">メールアドレス</label>
@@ -27,7 +27,7 @@ const Form = props =>{
                 { !(props.data.message[0].tel)? "": <p className="errmsg">{ props.data.message[0].tel }</p> }
                 
                 <label htmlFor="remarks">備考</label>
-                <textarea name="remarks" id="remarks" cols="30" rows="10" data-validation="textarea min5 max10" onBlur={ props.checkValidation } onChange={ props.checkValidation }></textarea>
+                <textarea name="remarks" id="remarks" cols="30" rows="10" data-validation="textarea max100" onBlur={ props.checkValidation } onChange={ props.checkValidation }></textarea>
                 { !(props.data.message[0].remarks)? "": <p className="errmsg">{ props.data.message[0].remarks }</p> }
                 
                 <input type="submit" value="送信" disabled={ props.data.disabled }/>

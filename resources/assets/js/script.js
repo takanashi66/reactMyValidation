@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 
 //コンポーネント
-import Form from './components/form'
+import Main from './components/main'
 
 class App extends Component {
     constructor(props) {
@@ -29,7 +29,8 @@ class App extends Component {
                 tel: true,
                 remarks: false,//必須ではないのでfalse始まり
             }],
-            disabled: true
+            disabled: true,
+            confirmVisible: false
         }
     }
     
@@ -221,6 +222,21 @@ class App extends Component {
             
         }
         
+        //サブミットされた時の処理
+        const goToConfirm = (e) => {
+            e.preventDefault()
+            this.setState({confirmVisible: true})
+        }
+        
+        //入力画面に戻る
+        const returnForm = e => {
+            e.preventDefault()
+
+            //確認画面を非表示
+            this.setState({confirmVisible: false})
+        };
+        
+        //サブミットされた時の処理
         const onSubmit = (e) => {
             e.preventDefault()
         }
@@ -232,9 +248,11 @@ class App extends Component {
                 </header>
                 
                 <main className="main">
-                    <Form 
+                    <Main 
                         checkValidation={ checkValidation } 
                         onSubmit={ onSubmit } 
+                        returnForm={ returnForm }
+                        goToConfirm = { goToConfirm }
                         data={ this.state } 
                     />
                 </main>

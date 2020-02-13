@@ -8,46 +8,37 @@ class App extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            formData: [{
+            formData: {
                 name: '',
                 email: '',
                 zip: '',
                 tel: '',
                 remarks: '',
-            }],
-            message: [{
+            },
+            message: {
                 name: '',
                 email: '',
                 zip: '',
                 tel: '',
                 remarks: '',
-            }],
-            hasError: [{
+            },
+            hasError: {
                 name: true,
                 email: true,
                 zip: true,
                 tel: true,
                 remarks: false,//必須ではないのでfalse始まり
-            }],
+            },
             disabled: true,
             confirmVisible: false,
             test: {
-                a: "a",
-                b: "b"
+                a: "1",
+                b: "2"
             }
         }
     }
     
     render(){
-        
-        const setTest = e => {
-            e.preventDefault()
-            console.log("↓Before test↓");
-            console.log(this.state.test);
-            this.setState({test:{a: "c"}})
-            console.log("↓After test↓");
-            console.log(this.state.test);
-        }
         
         // const stateData = {
         //     form: {
@@ -61,39 +52,45 @@ class App extends Component {
         //     confirmVisible: this.state.confirmVisible
         // }
         
-        // console.log(this.state.form)
+        // console.log(this.state.formData)
         // console.log(this.state.message)
         // console.log(this.state.hasError)
         // console.log("disabled : " + this.state.disabled)
         
         //エラーメッセージを格納する関数
         const setMessage = (inputName, errorMessage) =>{
-            const message_copy = this.state.message.slice();
-            message_copy[0][inputName] = errorMessage
-            this.setState({message: message_copy})
+            const message = {[inputName]: errorMessage}
+            const assignMessage = Object.assign(this.state.message, message);
+            this.setState({
+                message: assignMessage
+            })
             
             if(errorMessage != ""){
-                const hasError_copy = this.state.hasError.slice();
-                hasError_copy[0][inputName] = true
-                this.setState({hasError: hasError_copy})
+                const hasError = {[inputName]: true}
+                const assignHasError = Object.assign(this.state.hasError, hasError);
+                this.setState({
+                    hasError: assignHasError
+                })
             }
         }
         
         //valueを格納する関数
         const setForm = (inputName, formData) =>{
-            const copy = this.state.form.slice();
-            copy[0][inputName] = formData
-            this.setState({form: copy})
+            const data = {[inputName]: formData}
+            const assigndData = Object.assign(this.state.formData, data);
+            this.setState({
+                formData: assigndData
+            })
             
-            const hasError_copy = this.state.hasError.slice();
-            hasError_copy[0][inputName] = false
-            this.setState({hasError: hasError_copy})
+            const hasError = {[inputName]: false}
+            const assignHasError = Object.assign(this.state.hasError, hasError);
+            this.setState({
+                hasError: assignHasError
+            })
         }
         
         //最大文字数のバリデーション
         const maxValueLength = (max, inputName, value) => {
-            console.log(value.length);
-            
             if(value.length <= max){
                 //バリデーションを通ったデータを格納
                 setForm(inputName, value)
@@ -161,6 +158,7 @@ class App extends Component {
                 if(!value){
                     //エラーメッセージをセット
                     setMessage(inputName, "空です。")
+                    return false
                 }else{
                     //バリデーションを通ったデータを格納
                     setForm(inputName, value)
@@ -239,7 +237,7 @@ class App extends Component {
             
             validationEntry(value, inputName, validation)
             
-            if(!this.state.hasError[0].name && !this.state.hasError[0].email && !this.state.hasError[0].zip  && !this.state.hasError[0].tel && !this.state.hasError[0].remarks){
+            if(!this.state.hasError.name && !this.state.hasError.email && !this.state.hasError.zip  && !this.state.hasError.tel && !this.state.hasError.remarks){
                 this.setState({disabled: false})
             }else{
                 this.setState({disabled: true})

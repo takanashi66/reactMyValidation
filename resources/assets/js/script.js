@@ -31,10 +31,6 @@ class App extends Component {
             },
             disabled: true,
             confirmVisible: false,
-            test: {
-                a: "1",
-                b: "2"
-            }
         }
     }
     

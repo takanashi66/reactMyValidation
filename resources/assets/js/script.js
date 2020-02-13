@@ -8,7 +8,7 @@ class App extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            form: [{
+            formData: [{
                 name: '',
                 email: '',
                 zip: '',
@@ -30,11 +30,36 @@ class App extends Component {
                 remarks: false,//必須ではないのでfalse始まり
             }],
             disabled: true,
-            confirmVisible: false
+            confirmVisible: false,
+            test: {
+                a: "a",
+                b: "b"
+            }
         }
     }
     
     render(){
+        
+        const setTest = e => {
+            e.preventDefault()
+            console.log("↓Before test↓");
+            console.log(this.state.test);
+            this.setState({test:{a: "c"}})
+            console.log("↓After test↓");
+            console.log(this.state.test);
+        }
+        
+        // const stateData = {
+        //     form: {
+        //         formData: this.state.formData,
+        //         message: this.state.message,
+        //         disabled: this.state.disabled
+        //     },
+        //     confirm: {
+        //         formData: this.state.formData,
+        //     },
+        //     confirmVisible: this.state.confirmVisible
+        // }
         
         // console.log(this.state.form)
         // console.log(this.state.message)
@@ -229,7 +254,7 @@ class App extends Component {
         }
         
         //入力画面に戻る
-        const returnForm = e => {
+        const onClickReturn = e => {
             e.preventDefault()
 
             //確認画面を非表示
@@ -237,7 +262,7 @@ class App extends Component {
         };
         
         //サブミットされた時の処理
-        const onSubmit = (e) => {
+        const onClickSubmit = (e) => {
             e.preventDefault()
         }
         
@@ -250,8 +275,8 @@ class App extends Component {
                 <main className="main">
                     <Main 
                         checkValidation={ checkValidation } 
-                        onSubmit={ onSubmit } 
-                        returnForm={ returnForm }
+                        onClickSubmit={ onClickSubmit } 
+                        onClickReturn={ onClickReturn }
                         goToConfirm = { goToConfirm }
                         data={ this.state } 
                     />

@@ -5,7 +5,7 @@ import ReactDOM from 'react-dom'
 const Form = props =>{
     
     return(
-        props.data.form.map((item, i) =>{
+        props.data.formData.map((item, i) =>{
             return (
                 <form noValidate key={i}>
 

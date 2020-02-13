@@ -29,7 +29,7 @@ const Confirm = props => {
     return (
         <div>
             <table className="confirm_table">
-            {props.data.form.map((item, i) =>{
+            {props.data.formData.map((item, i) =>{
                 return(
                     <tbody key={i}>
                         <tr>
@@ -57,7 +57,7 @@ const Confirm = props => {
             })}
             </table>
 
-            <div className="return_btn" onClick={ props.returnForm }>
+            <div className="return_btn" onClick={ props.onClickReturn }>
                 <a href="#">
                     戻って修正
                 </a>

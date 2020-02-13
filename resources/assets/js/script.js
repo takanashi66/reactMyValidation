@@ -56,14 +56,14 @@ class App extends Component {
         //エラーメッセージを格納する関数
         const setMessage = (inputName, errorMessage) =>{
             const message = {[inputName]: errorMessage}
-            const assignMessage = Object.assign(this.state.message, message);
+            const assignMessage = Object.assign(this.state.message, message)
             this.setState({
                 message: assignMessage
             })
             
             if(errorMessage != ""){
                 const hasError = {[inputName]: true}
-                const assignHasError = Object.assign(this.state.hasError, hasError);
+                const assignHasError = Object.assign(this.state.hasError, hasError)
                 this.setState({
                     hasError: assignHasError
                 })
@@ -73,13 +73,13 @@ class App extends Component {
         //valueを格納する関数
         const setForm = (inputName, formData) =>{
             const data = {[inputName]: formData}
-            const assigndData = Object.assign(this.state.formData, data);
+            const assigndData = Object.assign(this.state.formData, data)
             this.setState({
                 formData: assigndData
             })
             
             const hasError = {[inputName]: false}
-            const assignHasError = Object.assign(this.state.hasError, hasError);
+            const assignHasError = Object.assign(this.state.hasError, hasError)
             this.setState({
                 hasError: assignHasError
             })
@@ -179,12 +179,12 @@ class App extends Component {
                             maxValueLength(max, inputName, value)
                         }
                     })
-                    break;
+                    break
                 case 2:
                     minMaxValueLength(Number(getMin(minmax)), Number(getMax(minmax)), inputName, value)
-                    break;
+                    break
                 default:
-                    break;
+                    break
             }
             
             if(validation.includes('email')){
@@ -253,7 +253,7 @@ class App extends Component {
 
             //確認画面を非表示
             this.setState({confirmVisible: false})
-        };
+        }
         
         //サブミットされた時の処理
         const onClickSubmit = (e) => {

@@ -1,32 +1,29 @@
-import React from "react";
+import React from "react"
 
 const getGenderLabel = gen => {
     if (gen === "men") {
-        return "男";
+        return "男"
     } else if (gen === "women") {
-        return "女";
+        return "女"
     } else {
-        return "その他";
+        return "その他"
     }
-};
+}
 
 //改行を表示
 const nl2br = text => {
-    console.log(text);
-    
-    // const regex = /(\n)/g;
-    // return text.split(regex).map((line, i) => {
-    //     if (line.match(regex)) {
-    //         return <br key={i} />;
-    //     } else {
-    //         return line;
-    //     }
-    // });
-};
+    const regex = /(\n)/g
+    return text.split(regex).map((line, i) => {
+        if (line.match(regex)) {
+            return <br key={i} />
+        } else {
+            return line
+        }
+    })
+}
 
 //Confirm
 const Confirm = props => {
-    console.log(props.data.formData.formData);
     return (
         <div>
             <table className="confirm_table">
@@ -66,7 +63,7 @@ const Confirm = props => {
                 </a>
             </div>
         </div>
-    );
-};
+    )
+}
 
-export default Confirm;
+export default Confirm

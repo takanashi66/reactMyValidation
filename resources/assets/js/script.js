@@ -38,6 +38,7 @@ class App extends Component {
                 faction: false,
                 remarks: false,//必須ではないのでfalse始まり
             },
+            remainsAnswer: 6,
             disabled: true,
             confirmVisible: false,
         }
@@ -45,10 +46,10 @@ class App extends Component {
     
     render(){
         
-        console.log(this.state.formData)
-        console.log(this.state.message)
-        console.log(this.state.hasError)
-        console.log("disabled : " + this.state.disabled)
+        // console.log(this.state.formData)
+        // console.log(this.state.message)
+        // console.log(this.state.hasError)
+        // console.log("disabled : " + this.state.disabled)
         
         //エラーメッセージを格納する関数
         const setMessage = (inputName, errorMessage) =>{
@@ -263,6 +264,22 @@ class App extends Component {
             const validation = e.target.getAttribute('data-validation').split(" ")
             
             validationEntry(value, inputName, validation)
+            
+            const getRemainsAnswer = () => {
+                let remainsAnswer = 0
+                
+                for (let [key, value] of Object.entries(this.state.hasError)) {
+                    if(value){
+                        remainsAnswer += 1
+                    }
+                }
+                
+                return remainsAnswer
+            }
+            
+            this.setState({
+                remainsAnswer: getRemainsAnswer()
+            })
             
             if(!Object.values(this.state.hasError).includes(true)){
                 this.setState({disabled: false})

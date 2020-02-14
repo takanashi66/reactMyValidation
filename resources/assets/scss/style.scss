@@ -103,3 +103,15 @@ h2{
 .input_required{
     background-color: #fffb9e !important;
 }
+
+.remainsAnswer{
+    margin-top: 30px;
+    text-align: center;
+    font-size: 1.5rem;
+    
+    span{
+        font-size: 1.5em;
+        color: #f00;
+        padding: 0 3px;
+    }
+}

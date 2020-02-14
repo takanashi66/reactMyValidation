@@ -27,6 +27,8 @@ const Form = props =>{
         }
     }
     
+    const remainsAnswer = props.data.remainsAnswer <= 0 ? "" : <p className="remainsAnswer">残り<span>{ props.data.remainsAnswer }</span>個に回答してください</p>
+    
     return(
         <form noValidate autoComplete="off">
 
@@ -75,6 +77,8 @@ const Form = props =>{
             <label htmlFor="remarks">備考</label>
             <textarea name="remarks" id="remarks" cols="30" rows="10" data-validation="max100" onChange={ props.checkValidation } defaultValue={ props.data.formData.remarks }></textarea>
             { !(props.data.message.remarks)? "": <p className="errmsg">{ props.data.message.remarks }</p> }
+            
+            { remainsAnswer }
             
             <input type="submit" value="確認" onClick={ props.goToConfirm } disabled={ props.data.disabled }/>
 

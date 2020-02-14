@@ -1,10 +1,18 @@
 import React from "react"
 
 const getGenderLabel = gen => {
-    if (Number(gen) === 0) {
+    if (gen === "0") {
         return "男"
-    } else if (Number(gen) === 1) {
+    } else if (gen === "1") {
         return "女"
+    }
+}
+
+const getFactionLabel = gen => {
+    if (gen === "0") {
+        return "犬派"
+    } else if (gen === "1") {
+        return "猫派"
     }
 }
 
@@ -45,6 +53,10 @@ const Confirm = props => {
                     <tr>
                         <th>性別</th>
                         <td>{ getGenderLabel(props.data.formData.gender) }</td>
+                    </tr>
+                    <tr>
+                        <th>派閥</th>
+                        <td>{ getFactionLabel(props.data.formData.faction) }</td>
                     </tr>
                     <tr>
                         <th>備考</th>

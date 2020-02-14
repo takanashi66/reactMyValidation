@@ -13,24 +13,30 @@ class App extends Component {
                 email: '',
                 zip: '',
                 tel: '',
-                remarks: '',
+                prefecture: '',
                 gender: '',
+                faction: '',
+                remarks: '',
             },
             message: {
                 name: '',
                 email: '',
                 zip: '',
                 tel: '',
-                remarks: '',
+                prefecture: '',
                 gender: '',
+                faction: '',
+                remarks: '',
             },
             hasError: {
                 name: true,
                 email: true,
                 zip: true,
                 tel: true,
-                remarks: false,//必須ではないのでfalse始まり
+                prefecture: true,
                 gender: true,
+                faction: false,
+                remarks: false,//必須ではないのでfalse始まり
             },
             disabled: true,
             confirmVisible: false,
@@ -192,8 +198,11 @@ class App extends Component {
             }
             
             if(validation.includes('tel')){
-                if(value.match(/^0[7-9]0-?[1-9]\d{3}-?\d{4}$/)){
+                if(value.match(/^[0-9０-９-ー]{6,15}$/)){
                     //バリデーションを通ったデータを格納
+                    value = value.replace(/[０-９-ー]/g, function(s) {
+                        return String.fromCharCode(s.charCodeAt(0) - 65248);
+                    });
                     setForm(inputName, value)
                     //エラーメッセージを削除
                     setMessage(inputName, "")
@@ -224,6 +233,21 @@ class App extends Component {
             
             //ラジオボタンだった場合
             if(inputType === 'radio'){
+                if(value == ""){
+                    //エラーメッセージをセット
+                    setMessage(inputName, "空です。")
+                    return false
+                }else{
+                    //バリデーションを通ったデータを格納
+                    setForm(inputName, value)
+                    //エラーメッセージを削除
+                    setMessage(inputName, "")
+                }
+            }
+            
+            //セレクトだった場合
+            if(inputType === 'select'){
+                console.log(select);
                 if(value == ""){
                     //エラーメッセージをセット
                     setMessage(inputName, "空です。")

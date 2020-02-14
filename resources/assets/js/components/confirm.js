@@ -1,12 +1,10 @@
 import React from "react"
 
 const getGenderLabel = gen => {
-    if (gen === "men") {
+    if (gen === 0) {
         return "男"
-    } else if (gen === "women") {
+    } else if (gen === 1) {
         return "女"
-    } else {
-        return "その他"
     }
 }
 
@@ -43,6 +41,10 @@ const Confirm = props => {
                     <tr>
                         <th>電話番号</th>
                         <td>{ props.data.formData.tel }</td>
+                    </tr>
+                    <tr>
+                        <th>性別</th>
+                        <td>{ getGenderLabel(props.data.formData.gender) }</td>
                     </tr>
                     <tr>
                         <th>備考</th>

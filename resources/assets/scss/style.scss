@@ -64,3 +64,38 @@ h2{
         }
     }
 }
+
+
+
+
+.cr_box{
+    display: flex;
+    align-items: center;
+    
+    label{
+        border: solid 1px #ccc;
+        border-radius: 5px;
+        padding: 10px 30px;
+        margin: 0;
+        
+        &:not(last-child){
+            margin-right: 20px;
+        }
+        
+        &:hover{
+            border: solid 1px #31ade2;
+            color: #fff;
+            background-color: #31ade2;
+        }
+    }
+    
+    .checked{
+        border: solid 1px #31ade2;
+        color: #fff;
+        background-color: #31ade2;
+    }
+    
+    input[type=radio]{
+        display: none;
+    }
+}

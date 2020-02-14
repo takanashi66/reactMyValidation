@@ -14,6 +14,7 @@ class App extends Component {
                 zip: '',
                 tel: '',
                 remarks: '',
+                gender: '',
             },
             message: {
                 name: '',
@@ -21,6 +22,7 @@ class App extends Component {
                 zip: '',
                 tel: '',
                 remarks: '',
+                gender: '',
             },
             hasError: {
                 name: true,
@@ -28,6 +30,7 @@ class App extends Component {
                 zip: true,
                 tel: true,
                 remarks: false,//必須ではないのでfalse始まり
+                gender: true,
             },
             disabled: true,
             confirmVisible: false,
@@ -36,22 +39,10 @@ class App extends Component {
     
     render(){
         
-        // const stateData = {
-        //     form: {
-        //         formData: this.state.formData,
-        //         message: this.state.message,
-        //         disabled: this.state.disabled
-        //     },
-        //     confirm: {
-        //         formData: this.state.formData,
-        //     },
-        //     confirmVisible: this.state.confirmVisible
-        // }
-        
-        // console.log(this.state.formData)
-        // console.log(this.state.message)
-        // console.log(this.state.hasError)
-        // console.log("disabled : " + this.state.disabled)
+        console.log(this.state.formData)
+        console.log(this.state.message)
+        console.log(this.state.hasError)
+        console.log("disabled : " + this.state.disabled)
         
         //エラーメッセージを格納する関数
         const setMessage = (inputName, errorMessage) =>{
@@ -227,13 +218,29 @@ class App extends Component {
         
         //バリデーションチェック
         const checkValidation = (e) =>{
+            const inputType = e.target.type
             const value = e.target.value
             const inputName = e.target.getAttribute('name')
+            
+            //ラジオボタンだった場合
+            if(inputType === 'radio'){
+                if(value == ""){
+                    //エラーメッセージをセット
+                    setMessage(inputName, "空です。")
+                    return false
+                }else{
+                    //バリデーションを通ったデータを格納
+                    setForm(inputName, value)
+                    //エラーメッセージを削除
+                    setMessage(inputName, "")
+                }
+            }
+            
             const validation = e.target.getAttribute('data-validation').split(" ")
             
             validationEntry(value, inputName, validation)
             
-            if(!this.state.hasError.name && !this.state.hasError.email && !this.state.hasError.zip  && !this.state.hasError.tel && !this.state.hasError.remarks){
+            if(!Object.values(this.state.hasError).includes(true)){
                 this.setState({disabled: false})
             }else{
                 this.setState({disabled: true})

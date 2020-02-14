@@ -1,9 +1,9 @@
 import React from "react"
 
 const getGenderLabel = gen => {
-    if (gen === 0) {
+    if (Number(gen) === 0) {
         return "男"
-    } else if (gen === 1) {
+    } else if (Number(gen) === 1) {
         return "女"
     }
 }

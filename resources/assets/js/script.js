@@ -4,6 +4,69 @@ import ReactDOM from 'react-dom'
 //コンポーネント
 import Main from './components/main'
 
+// バリデーションの共通処理
+const validationBase = (cond, message, normalize)=> value => {
+    const v = normalize ? normalize(value) : value
+    if (cond(v)) {
+        return {
+            valid: true,
+            message: '',
+            value,
+        }
+    }
+    return {
+        valid: false,
+        message,
+        value,
+    }
+}
+
+const toHankakuNumber = v => v.replace(/[０-９-ー]/g,
+        s => String.fromCharCode(s.charCodeAt(0) - 65248))
+
+// バリデーション用の関数群
+const validation = {
+    required: validationBase(v => v, '空です。'),
+    max: (max) => validationBase(v => v.length <= max,`${max}文字以内で入力してください。`),
+    min: (min) => validationBase(v => v.length >= min, `${min}文字以上で入力してください。`),
+    minMax: (min, max) => validationBase(v => v.length <= max && v.length >= min, `${min}文字以上${max}文字以下で入力してください。`),
+    email: validationBase(v => {
+        return v.match(/^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/)
+    }, "メールアドレスの形式が違う。"),
+    tel: validationBase(v => v.match(/^[0-9-ー]{6,15}$/), "電話番号の形式が違う", toHankakuNumber),
+    zip: validationBase(v => v.match(/^\d{3}[-]?\d{4}$/), '郵便番号の形式が違う。'),
+}
+
+// inputタグの種類によっては強制するバリデーション
+const defaultValidations = {
+    radio: [validation.required],
+    select: [validation.required],
+}
+
+// 各inputタグのバリデーションを指定
+const validationConfig =
+    {
+        name: ["required"],
+        email: ["required", "email"],
+        zip: ["required", ["minMax", 7, 8], "zip"],
+        tel: ["required", "tel"],
+        prefecture: ["required"],
+        gender: ["required"],
+        faction: [],
+        remarks: [["max", 100]],
+    }
+
+// validationConfigの値をバリデーション関数へ変換する関数
+const toValidation = (config) => {
+    if (Array.isArray(config)) {
+        const [name, ...args] = config;
+        return validation[name].apply(null, args)
+    }
+    if (typeof config === "string") {
+        return validation[config]
+    }
+}
+
 class App extends Component {
     constructor(props) {
         super(props)
@@ -43,258 +106,55 @@ class App extends Component {
             confirmVisible: false,
         }
     }
-    
+
     render(){
-        
-        // console.log(this.state.formData)
-        // console.log(this.state.message)
-        // console.log(this.state.hasError)
-        // console.log("disabled : " + this.state.disabled)
-        
-        //エラーメッセージを格納する関数
-        const setMessage = (inputName, errorMessage) =>{
-            const message = {[inputName]: errorMessage}
-            const assignMessage = Object.assign(this.state.message, message)
-            this.setState({
-                message: assignMessage
-            })
-            
-            if(errorMessage != ""){
-                const hasError = {[inputName]: true}
-                const assignHasError = Object.assign(this.state.hasError, hasError)
-                this.setState({
-                    hasError: assignHasError
-                })
-            }
-        }
-        
-        //valueを格納する関数
-        const setForm = (inputName, formData) =>{
-            const data = {[inputName]: formData}
-            const assigndData = Object.assign(this.state.formData, data)
-            this.setState({
-                formData: assigndData
-            })
-            
-            const hasError = {[inputName]: false}
-            const assignHasError = Object.assign(this.state.hasError, hasError)
-            this.setState({
-                hasError: assignHasError
-            })
-        }
-        
-        //最大文字数のバリデーション
-        const maxValueLength = (max, inputName, value) => {
-            if(value.length <= max){
-                //バリデーションを通ったデータを格納
-                setForm(inputName, value)
-                //エラーメッセージを削除
-                setMessage(inputName, "")
-            }else{
-                //エラーメッセージをセット
-                setMessage(inputName, max + "文字以内で入力してください。")
-            }
-        }
-        
-        //最小文字数のバリデーション
-        const minValueLength = (min, inputName, value) => {
-            if(value.length >= min){
-                //バリデーションを通ったデータを格納
-                setForm(inputName, value)
-                //エラーメッセージを削除
-                setMessage(inputName, "")
-            }else{
-                //エラーメッセージをセット
-                setMessage(inputName, min + "文字以上で入力してください。")
-            }
-        }
-        
-        //最大値最小値両方あった場合のバリデーション
-        const minMaxValueLength = (min, max, inputName, value) => {
-            if(value.length >= min && value.length <= max){
-                //バリデーションを通ったデータを格納
-                setForm(inputName, value)
-                //エラーメッセージを削除
-                setMessage(inputName, "")
-            }else{
-                //エラーメッセージをセット
-                setMessage(inputName, min + "文字以上" + max + "文字以下で入力してください。")
-            }
-        }
-        
-        //minの数値を取得する関数
-        const getMin = (minmax) =>{
-            let min = 0
-            minmax.map(i=>{
-                if(/^min/.test(i)){
-                    min = i.slice(3)
-                    return min
-                }
-            })
-            return min
-        }
-        
-        //maxの数値を取得する関数
-        const getMax = (minmax) =>{
-            let max = 0
-            minmax.map(i=>{
-                if(/^max/.test(i)){
-                    max = i.slice(3)
-                    return max
-                }
-            })
-            return max
-        }
-        
-        //バリデーション項目
-        const validationEntry = (value, inputName, validation) => {
-            if(validation.includes('required')){
-                if(!value){
-                    //エラーメッセージをセット
-                    setMessage(inputName, "空です。")
-                    return false
-                }else{
-                    //バリデーションを通ったデータを格納
-                    setForm(inputName, value)
-                    //エラーメッセージを削除
-                    setMessage(inputName, "")
-                }
-            }
-            
-            //min max を取得
-            const minmax = validation.filter(RegExp.prototype.test.bind(/^(max|min)[0-9]+/))
-            
-            switch (minmax.length) {
-                case 1:
-                    minmax.map(i=>{
-                        if(/^min/.test(i)){
-                            let min = i.slice(3)
-                            minValueLength(min, inputName, value)
-                        }
-            
-                        if(/^max/.test(i)){
-                            let max = i.slice(3)
-                            maxValueLength(max, inputName, value)
-                        }
-                    })
-                    break
-                case 2:
-                    minMaxValueLength(Number(getMin(minmax)), Number(getMax(minmax)), inputName, value)
-                    break
-                default:
-                    break
-            }
-            
-            if(validation.includes('email')){
-                if(value.match(/^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/)){
-                    //バリデーションを通ったデータを格納
-                    setForm(inputName, value)
-                    //エラーメッセージを削除
-                    setMessage(inputName, "")
-                
-                }else{
-                    //エラーメッセージをセット
-                    setMessage(inputName, "メールアドレスの形式が違う。")
-                }
-            }
-            
-            if(validation.includes('tel')){
-                if(value.match(/^[0-9０-９-ー]{6,15}$/)){
-                    //バリデーションを通ったデータを格納
-                    value = value.replace(/[０-９-ー]/g, function(s) {
-                        return String.fromCharCode(s.charCodeAt(0) - 65248);
-                    });
-                    setForm(inputName, value)
-                    //エラーメッセージを削除
-                    setMessage(inputName, "")
-                }else{
-                    //エラーメッセージをセット
-                    setMessage(inputName, "電話番号の形式が違う。")
-                }
-            }
-            
-            if(validation.includes('zip')){
-                if(value.match(/^\d{3}[-]?\d{4}$/)){
-                    //バリデーションを通ったデータを格納
-                    setForm(inputName, value)
-                    //エラーメッセージを削除
-                    setMessage(inputName, "")
-                }else{
-                    //エラーメッセージをセット
-                    setMessage(inputName, "郵便番号の形式が違う。")
-                }
-            }
-        }
-        
         //バリデーションチェック
         const checkValidation = (e) =>{
-            const inputType = e.target.type
-            const value = e.target.value
-            const inputName = e.target.getAttribute('name')
-            
-            //ラジオボタンだった場合
-            if(inputType === 'radio'){
-                if(value == ""){
-                    //エラーメッセージをセット
-                    setMessage(inputName, "空です。")
-                    return false
-                }else{
-                    //バリデーションを通ったデータを格納
-                    setForm(inputName, value)
-                    //エラーメッセージを削除
-                    setMessage(inputName, "")
+            const { value, name, type } = e.target;
+            // 実行するバリデーションを用意する
+            const validations = [
+                ...defaultValidations[type] || [],
+                ...(validationConfig[name] || []).map(toValidation)
+            ]
+
+            // バリデーションを順番に行う
+            const { valid, value: formData, message } = validations.reduce((acc, validate) => {
+                const { valid } = acc;
+                // すでにエラーが有る場合、その他のバリデーションはスキップする仕様で
+                if (!valid) {
+                    return acc;
                 }
+                return validate(value)
+            }, { valid: true, message: "", value, })
+
+            const hasError = {
+                ...this.state.hasError,
+                [name]: !valid,
             }
-            
-            //セレクトだった場合
-            if(inputType === 'select'){
-                console.log(select);
-                if(value == ""){
-                    //エラーメッセージをセット
-                    setMessage(inputName, "空です。")
-                    return false
-                }else{
-                    //バリデーションを通ったデータを格納
-                    setForm(inputName, value)
-                    //エラーメッセージを削除
-                    setMessage(inputName, "")
-                }
-            }
-            
-            const validation = e.target.getAttribute('data-validation').split(" ")
-            
-            validationEntry(value, inputName, validation)
-            
-            const getRemainsAnswer = () => {
-                let remainsAnswer = 0
-                
-                for (let [key, value] of Object.entries(this.state.hasError)) {
-                    if(value){
-                        remainsAnswer += 1
-                    }
-                }
-                
-                return remainsAnswer
-            }
-            
+            const errors = Object.values(hasError)
+
             this.setState({
-                remainsAnswer: getRemainsAnswer()
+                ...this.state,
+                message: {
+                    ...this.state.message,
+                    [name]: message
+                },
+                hasError ,
+                formData: {
+                    ...this.state.formData,
+                    [name]: formData,
+                },
+                remainsAnswer: errors.reduce((acc, value) => value ? acc+1 : acc, 0),
+                disabled: errors.some(value => value),
             })
-            
-            if(!Object.values(this.state.hasError).includes(true)){
-                this.setState({disabled: false})
-            }else{
-                this.setState({disabled: true})
-            }
-            
         }
-        
+
         //サブミットされた時の処理
         const goToConfirm = (e) => {
             e.preventDefault()
             this.setState({confirmVisible: true})
         }
-        
+
         //入力画面に戻る
         const onClickReturn = e => {
             e.preventDefault()
@@ -302,28 +162,28 @@ class App extends Component {
             //確認画面を非表示
             this.setState({confirmVisible: false})
         }
-        
+
         //サブミットされた時の処理
         const onClickSubmit = (e) => {
             e.preventDefault()
         }
-        
+
         return(
             <div className="wrap">
                 <header className="header">
                     <h1>フォーム作るよ</h1>
                 </header>
-                
+
                 <main className="main">
-                    <Main 
-                        checkValidation={ checkValidation } 
-                        onClickSubmit={ onClickSubmit } 
+                    <Main
+                        checkValidation={ checkValidation }
+                        onClickSubmit={ onClickSubmit }
                         onClickReturn={ onClickReturn }
                         goToConfirm = { goToConfirm }
-                        data={ this.state } 
+                        data={ this.state }
                     />
                 </main>
-                
+
                 <footer className="footer">
                     <p><small>footer</small></p>
                 </footer>

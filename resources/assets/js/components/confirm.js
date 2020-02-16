@@ -8,10 +8,10 @@ const getGenderLabel = gen => {
     }
 }
 
-const getFactionLabel = gen => {
-    if (gen === "0") {
+const getFactionLabel = fac => {
+    if (fac === "0") {
         return "犬派"
-    } else if (gen === "1") {
+    } else if (fac === "1") {
         return "猫派"
     }
 }
@@ -49,6 +49,10 @@ const Confirm = props => {
                     <tr>
                         <th>電話番号</th>
                         <td>{ props.data.formData.tel }</td>
+                    </tr>
+                    <tr>
+                        <th>都道府県</th>
+                        <td>{ props.data.formData.prefecture }</td>
                     </tr>
                     <tr>
                         <th>性別</th>

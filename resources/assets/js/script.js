@@ -46,10 +46,10 @@ class App extends Component {
     
     render(){
         
-        // console.log(this.state.formData)
-        // console.log(this.state.message)
-        // console.log(this.state.hasError)
-        // console.log("disabled : " + this.state.disabled)
+        console.log(this.state.formData)
+        console.log(this.state.message)
+        console.log(this.state.hasError)
+        console.log("disabled : " + this.state.disabled)
         
         //エラーメッセージを格納する関数
         const setMessage = (inputName, errorMessage) =>{
@@ -247,12 +247,10 @@ class App extends Component {
             }
             
             //セレクトだった場合
-            if(inputType === 'select'){
-                console.log(select);
+            if(inputType == 'select-one'){
                 if(value == ""){
                     //エラーメッセージをセット
                     setMessage(inputName, "空です。")
-                    return false
                 }else{
                     //バリデーションを通ったデータを格納
                     setForm(inputName, value)

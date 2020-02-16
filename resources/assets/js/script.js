@@ -46,10 +46,10 @@ class App extends Component {
     
     render(){
         
-        console.log(this.state.formData)
-        console.log(this.state.message)
-        console.log(this.state.hasError)
-        console.log("disabled : " + this.state.disabled)
+        // console.log(this.state.formData)
+        // console.log(this.state.message)
+        // console.log(this.state.hasError)
+        // console.log("disabled : " + this.state.disabled)
         
         //エラーメッセージを格納する関数
         const setMessage = (inputName, errorMessage) =>{
@@ -231,10 +231,11 @@ class App extends Component {
             const inputType = e.target.type
             const value = e.target.value
             const inputName = e.target.getAttribute('name')
+            const validation = e.target.getAttribute('data-validation').split(" ")
             
             //ラジオボタンだった場合
             if(inputType === 'radio'){
-                if(value == ""){
+                if(value == "" && validation.includes('required')){
                     //エラーメッセージをセット
                     setMessage(inputName, "空です。")
                     return false
@@ -248,7 +249,7 @@ class App extends Component {
             
             //セレクトだった場合
             if(inputType == 'select-one'){
-                if(value == ""){
+                if(value == "" && validation.includes('required')){
                     //エラーメッセージをセット
                     setMessage(inputName, "空です。")
                 }else{
@@ -258,8 +259,6 @@ class App extends Component {
                     setMessage(inputName, "")
                 }
             }
-            
-            const validation = e.target.getAttribute('data-validation').split(" ")
             
             validationEntry(value, inputName, validation)
             

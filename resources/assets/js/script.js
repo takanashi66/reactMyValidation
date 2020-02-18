@@ -16,6 +16,7 @@ class App extends Component {
                 prefecture: '',
                 gender: '',
                 faction: '',
+                device: '',
                 remarks: '',
             },
             message: {
@@ -26,6 +27,7 @@ class App extends Component {
                 prefecture: '',
                 gender: '',
                 faction: '',
+                device: '',
                 remarks: '',
             },
             hasError: {
@@ -36,6 +38,7 @@ class App extends Component {
                 prefecture: true,
                 gender: true,
                 faction: false,
+                device: false,
                 remarks: false,//必須ではないのでfalse始まり
             },
             remainsAnswer: 6,
@@ -46,10 +49,10 @@ class App extends Component {
     
     render(){
         
-        // console.log(this.state.formData)
-        // console.log(this.state.message)
-        // console.log(this.state.hasError)
-        // console.log("disabled : " + this.state.disabled)
+        console.log(this.state.formData)
+        console.log(this.state.message)
+        console.log(this.state.hasError)
+        console.log("disabled : " + this.state.disabled)
         
         //エラーメッセージを格納する関数
         const setMessage = (inputName, errorMessage) =>{
@@ -146,6 +149,25 @@ class App extends Component {
             return max
         }
         
+        const getCheckboxValue = (inputName, validation) =>{
+            let value="";
+            const ele=document.getElementsByName(inputName);
+            for(let i = 0; i < ele.length; i++){
+                if(ele[i].checked){
+                    if(value!=="") value+=",";
+                    value+=ele[i].value;
+                }
+            }
+            if(value == "" && validation.includes('required')){
+                setMessage(inputName, "空です")
+            }else{
+                //バリデーションを通ったデータを格納
+                setForm(inputName, value)
+                //エラーメッセージを削除
+                setMessage(inputName, "")
+            }
+        }
+        
         //バリデーション項目
         const validationEntry = (value, inputName, validation) => {
             if(validation.includes('required')){
@@ -232,6 +254,11 @@ class App extends Component {
             const value = e.target.value
             const inputName = e.target.getAttribute('name')
             const validation = e.target.getAttribute('data-validation').split(" ")
+            
+            if(inputType === 'checkbox'){
+                //値を取得
+                getCheckboxValue('device', validation)
+            }
             
             //ラジオボタンだった場合
             if(inputType === 'radio'){

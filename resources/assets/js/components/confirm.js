@@ -63,6 +63,10 @@ const Confirm = props => {
                         <td>{ getFactionLabel(props.data.formData.faction) }</td>
                     </tr>
                     <tr>
+                        <th>使用中のデバイス</th>
+                        <td>{ props.data.formData.device }</td>
+                    </tr>
+                    <tr>
                         <th>備考</th>
                         <td>{ nl2br(props.data.formData.remarks) }</td>
                     </tr>

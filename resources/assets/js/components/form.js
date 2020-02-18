@@ -81,6 +81,13 @@ const Form = props =>{
                 <input type="radio" id="faction_f" name="faction" data-validation="" value="1" onChange={ props.checkValidation } defaultChecked={props.data.formData.faction === "1" ? true : false}/>
             </div>
             
+            <label>使用中のデバイス</label>
+            <div className="cr_box">
+                <label><input type="checkbox" name="device" onChange={ props.checkValidation } data-validation="" value="iPhone"/> iPhone</label>
+                <label><input type="checkbox" name="device" onChange={ props.checkValidation } data-validation="" value="iPad"/> iPad</label>
+                <label><input type="checkbox" name="device" onChange={ props.checkValidation } data-validation="" value="Mac"/> Mac</label>
+            </div>
+            
             <label htmlFor="remarks">備考</label>
             <textarea name="remarks" id="remarks" cols="30" rows="10" data-validation="max100" onChange={ props.checkValidation } defaultValue={ props.data.formData.remarks }></textarea>
             { !(props.data.message.remarks)? "": <p className="errmsg">{ props.data.message.remarks }</p> }

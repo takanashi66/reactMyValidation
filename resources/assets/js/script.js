@@ -53,10 +53,10 @@ class App extends Component {
     
     render(){
         
-        console.log(this.state.formData)
-        console.log(this.state.message)
-        console.log(this.state.hasError)
-        console.log("disabled : " + this.state.disabled)
+        // console.log(this.state.formData)
+        // console.log(this.state.message)
+        // console.log(this.state.hasError)
+        // console.log("disabled : " + this.state.disabled)
         
         //エラーメッセージを格納する関数
         const setMessage = (inputName, errorMessage) =>{
@@ -319,13 +319,20 @@ class App extends Component {
             
         }
         
+        //
         const checkDateValidation = (date) =>{
             if(date != ""){
-                const datetime = date.format("YYYY年MM月DD日")
-                //バリデーションを通ったデータを格納
-                setForm("date", datetime)
-                //エラーメッセージを削除
-                setMessage("date", "")
+                //今日以降のみ
+                const ToDay = new Date(new Date().setHours(0, 0, 0, 0));
+                if(date.isSameOrAfter(ToDay)){
+                    const datetime = date.format("YYYY年MM月DD日")
+                    //バリデーションを通ったデータを格納
+                    setForm("date", datetime)
+                    //エラーメッセージを削除
+                    setMessage("date", "")
+                }else{
+                    setMessage("date", "不正な日付が選択されました")
+                }
             }else{
                 setMessage("date", "空です。")
             }

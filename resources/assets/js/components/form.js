@@ -83,9 +83,9 @@ const Form = props =>{
             
             <label>使用中のデバイス</label>
             <div className="cr_box">
-                <label><input type="checkbox" name="device" onChange={ props.checkValidation } data-validation="" value="iPhone"/> iPhone</label>
-                <label><input type="checkbox" name="device" onChange={ props.checkValidation } data-validation="" value="iPad"/> iPad</label>
-                <label><input type="checkbox" name="device" onChange={ props.checkValidation } data-validation="" value="Mac"/> Mac</label>
+                <label><input type="checkbox" name="device" onChange={ props.checkValidation } data-validation="" value="iPhone" defaultChecked={props.data.formData.device.includes('iPhone') ? true : false}/> iPhone</label>
+                <label><input type="checkbox" name="device" onChange={ props.checkValidation } data-validation="" value="iPad" defaultChecked={props.data.formData.device.includes('iPad') ? true : false}/> iPad</label>
+                <label><input type="checkbox" name="device" onChange={ props.checkValidation } data-validation="" value="Mac" defaultChecked={props.data.formData.device.includes('Mac') ? true : false}/> Mac</label>
             </div>
             
             <label htmlFor="remarks">備考</label>

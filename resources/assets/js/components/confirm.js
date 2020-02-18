@@ -39,6 +39,10 @@ const Confirm = props => {
                         <td>{ props.data.formData.name }</td>
                     </tr>
                     <tr>
+                        <th>引越し予定日</th>
+                        <td>{ props.data.formData.date }</td>
+                    </tr>
+                    <tr>
                         <th>メールアドレス</th>
                         <td>{ props.data.formData.email }</td>
                     </tr>

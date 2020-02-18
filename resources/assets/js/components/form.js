@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
+import Datetime from 'react-datetime'
 
 const prefecture = ["北海道","青森県","岩手県","宮城県","秋田県","山形県","福島県",
 "茨城県","栃木県","群馬県","埼玉県","千葉県","東京都","神奈川県",
@@ -41,15 +42,34 @@ const Form = props =>{
         <form noValidate autoComplete="off">
 
             <label htmlFor="name">名前 <span className="required">必須</span></label>
-            <input type="text" name="name" id="name" className={props.data.formData.tel ? "" : "input_required"} data-validation="required" onBlur={ props.checkValidation } onChange={ props.checkValidation } defaultValue={ props.data.formData.name } onKeyUp={ onKeyUpCheckValue }/>
+            <input type="text" name="name" id="name" className={props.data.formData.name ? "" : "input_required"} data-validation="required" onBlur={ props.checkValidation } onChange={ props.checkValidation } defaultValue={ props.data.formData.name } onKeyUp={ onKeyUpCheckValue }/>
             { !(props.data.message.name)? "": <p className="errmsg">{ props.data.message.name }</p> }
             
+            <label htmlFor="date">引越し予定日 <span className="required">必須</span></label>
+                
+                <Datetime
+                    value={props.data.formData.date}
+                    dateFormat="YYYY年MM月DD日"
+                    timeFormat=""
+                    locale="ja"
+                    inputProps={{readOnly:true}}
+                    name="date"
+                    id="date"
+                    className={props.data.formData.date ? "" : "input_required"}
+                    data-validation="required"
+                    onBlur={ props.checkDateValidation }
+                    onChange={ props.checkDateValidation }
+                    defaultValue={ props.data.formData.date }
+                    readOnly="true"
+                />
+            { !(props.data.message.date)? "": <p className="errmsg">{ props.data.message.date }</p> }
+            
             <label htmlFor="email">メールアドレス <span className="required">必須</span></label>
-            <input type="email" name="email" id="email" className={props.data.formData.tel ? "" : "input_required"} data-validation="required email" onBlur={ props.checkValidation } onChange={ props.checkValidation } defaultValue={ props.data.formData.email } onKeyUp={ onKeyUpCheckValue }/>
+            <input type="email" name="email" id="email" className={props.data.formData.email ? "" : "input_required"} data-validation="required email" onBlur={ props.checkValidation } onChange={ props.checkValidation } defaultValue={ props.data.formData.email } onKeyUp={ onKeyUpCheckValue }/>
             { !(props.data.message.email)? "": <p className="errmsg">{ props.data.message.email }</p> }
             
             <label htmlFor="zip">郵便番号 <span className="required">必須</span></label>
-            <input type="text" name="zip" id="zip" className={props.data.formData.tel ? "" : "input_required"} data-validation="required min7 max8 zip" onBlur={ props.checkValidation } onChange={ props.checkValidation } defaultValue={ props.data.formData.zip } onKeyUp={ onKeyUpCheckValue }/>
+            <input type="text" name="zip" id="zip" className={props.data.formData.zip ? "" : "input_required"} data-validation="required min7 max8 zip" onBlur={ props.checkValidation } onChange={ props.checkValidation } defaultValue={ props.data.formData.zip } onKeyUp={ onKeyUpCheckValue }/>
             { !(props.data.message.zip)? "": <p className="errmsg">{ props.data.message.zip }</p> }
             
             <label htmlFor="tel">電話番号 <span className="required">必須</span></label>

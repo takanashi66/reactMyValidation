@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
+import moment from 'moment'
 
 //コンポーネント
 import Main from './components/main'
@@ -10,6 +11,7 @@ class App extends Component {
         this.state = {
             formData: {
                 name: '',
+                date: '',
                 email: '',
                 zip: '',
                 tel: '',
@@ -21,6 +23,7 @@ class App extends Component {
             },
             message: {
                 name: '',
+                date: '',
                 email: '',
                 zip: '',
                 tel: '',
@@ -32,6 +35,7 @@ class App extends Component {
             },
             hasError: {
                 name: true,
+                date: true,
                 email: true,
                 zip: true,
                 tel: true,
@@ -41,7 +45,7 @@ class App extends Component {
                 device: false,
                 remarks: false,//必須ではないのでfalse始まり
             },
-            remainsAnswer: 6,
+            remainsAnswer: 7,
             disabled: true,
             confirmVisible: false,
         }
@@ -255,6 +259,8 @@ class App extends Component {
             const inputName = e.target.getAttribute('name')
             const validation = e.target.getAttribute('data-validation').split(" ")
             
+            
+            
             if(inputType === 'checkbox'){
                 //値を取得
                 getCheckboxValue('device', validation)
@@ -313,6 +319,19 @@ class App extends Component {
             
         }
         
+        const checkDateValidation = (date) =>{
+            if(date != ""){
+                const datetime = date.format("YYYY年MM月DD日")
+                //バリデーションを通ったデータを格納
+                setForm("date", datetime)
+                //エラーメッセージを削除
+                setMessage("date", "")
+            }else{
+                setMessage("date", "空です。")
+            }
+            return false
+        }
+        
         //サブミットされた時の処理
         const goToConfirm = (e) => {
             e.preventDefault()
@@ -341,6 +360,7 @@ class App extends Component {
                 <main className="main">
                     <Main 
                         checkValidation={ checkValidation } 
+                        checkDateValidation={ checkDateValidation }
                         onClickSubmit={ onClickSubmit } 
                         onClickReturn={ onClickReturn }
                         goToConfirm = { goToConfirm }

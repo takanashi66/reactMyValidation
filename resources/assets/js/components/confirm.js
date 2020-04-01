@@ -36,43 +36,43 @@ const Confirm = props => {
                 <tbody>
                     <tr>
                         <th>お名前</th>
-                        <td>{ props.data.formData.name }</td>
+                        <td>{ props.data.step2.formData.name }</td>
                     </tr>
                     <tr>
                         <th>引越し予定日</th>
-                        <td>{ props.data.formData.date }</td>
+                        <td>{ props.data.step2.formData.date }</td>
                     </tr>
                     <tr>
                         <th>メールアドレス</th>
-                        <td>{ props.data.formData.email }</td>
+                        <td>{ props.data.step2.formData.email }</td>
                     </tr>
                     <tr>
                         <th>郵便番号</th>
-                        <td>{ props.data.formData.zip }</td>
+                        <td>{ props.data.step2.formData.zip }</td>
                     </tr>
                     <tr>
                         <th>電話番号</th>
-                        <td>{ props.data.formData.tel }</td>
+                        <td>{ props.data.step2.formData.tel }</td>
                     </tr>
                     <tr>
                         <th>都道府県</th>
-                        <td>{ props.data.formData.prefecture }</td>
+                        <td>{ props.data.step2.formData.prefecture }</td>
                     </tr>
                     <tr>
                         <th>性別</th>
-                        <td>{ getGenderLabel(props.data.formData.gender) }</td>
+                        <td>{ getGenderLabel(props.data.step2.formData.gender) }</td>
                     </tr>
                     <tr>
                         <th>派閥</th>
-                        <td>{ getFactionLabel(props.data.formData.faction) }</td>
+                        <td>{ getFactionLabel(props.data.step2.formData.faction) }</td>
                     </tr>
                     <tr>
                         <th>使用中のデバイス</th>
-                        <td>{ props.data.formData.device }</td>
+                        <td>{ props.data.step2.formData.device }</td>
                     </tr>
                     <tr>
                         <th>備考</th>
-                        <td>{ nl2br(props.data.formData.remarks) }</td>
+                        <td>{ nl2br(props.data.step2.formData.remarks) }</td>
                     </tr>
                 </tbody>
             </table>

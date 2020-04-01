@@ -42,75 +42,75 @@ const Form = props =>{
         <form noValidate autoComplete="off">
 
             <label htmlFor="name">名前 <span className="required">必須</span></label>
-            <input type="text" name="name" id="name" className={props.data.formData.name ? "" : "input_required"} data-validation="required" onBlur={ props.checkValidation } onChange={ props.checkValidation } defaultValue={ props.data.formData.name } onKeyUp={ onKeyUpCheckValue }/>
-            { !(props.data.message.name)? "": <p className="errmsg">{ props.data.message.name }</p> }
+            <input type="text" name="name" id="name" className={props.data.step2.formData.name ? "" : "input_required"} data-validation="required" onBlur={ props.checkValidation } onChange={ props.checkValidation } defaultValue={ props.data.step2.formData.name } onKeyUp={ onKeyUpCheckValue }/>
+            { !(props.data.step2.message.name)? "": <p className="errmsg">{ props.data.step2.message.name }</p> }
             
             <label htmlFor="date">引越し予定日 <span className="required">必須</span></label>
                 
                 <Datetime
-                    value={props.data.formData.date}
+                    value={props.data.step2.formData.date}
                     dateFormat="YYYY年MM月DD日"
                     timeFormat=""
                     locale="ja"
                     inputProps={{readOnly:true}}
                     name="date"
                     id="date"
-                    className={props.data.formData.date ? "" : "input_required"}
+                    className={props.data.step2.formData.date ? "" : "input_required"}
                     data-validation="required"
                     onBlur={ props.checkDateValidation }
                     onChange={ props.checkDateValidation }
-                    defaultValue={ props.data.formData.date }
+                    defaultValue={ props.data.step2.formData.date }
                     readOnly="true"
                 />
-            { !(props.data.message.date)? "": <p className="errmsg">{ props.data.message.date }</p> }
+            { !(props.data.step2.message.date)? "": <p className="errmsg">{ props.data.step2.message.date }</p> }
             
             <label htmlFor="email">メールアドレス <span className="required">必須</span></label>
-            <input type="email" name="email" id="email" className={props.data.formData.email ? "" : "input_required"} data-validation="required email" onBlur={ props.checkValidation } onChange={ props.checkValidation } defaultValue={ props.data.formData.email } onKeyUp={ onKeyUpCheckValue }/>
-            { !(props.data.message.email)? "": <p className="errmsg">{ props.data.message.email }</p> }
+            <input type="email" name="email" id="email" className={props.data.step2.formData.email ? "" : "input_required"} data-validation="required email" onBlur={ props.checkValidation } onChange={ props.checkValidation } defaultValue={ props.data.step2.formData.email } onKeyUp={ onKeyUpCheckValue }/>
+            { !(props.data.step2.message.email)? "": <p className="errmsg">{ props.data.step2.message.email }</p> }
             
             <label htmlFor="zip">郵便番号 <span className="required">必須</span></label>
-            <input type="text" name="zip" id="zip" className={props.data.formData.zip ? "" : "input_required"} data-validation="required min7 max8 zip" onBlur={ props.checkValidation } onChange={ props.checkValidation } defaultValue={ props.data.formData.zip } onKeyUp={ onKeyUpCheckValue }/>
-            { !(props.data.message.zip)? "": <p className="errmsg">{ props.data.message.zip }</p> }
+            <input type="text" name="zip" id="zip" className={props.data.step2.formData.zip ? "" : "input_required"} data-validation="required min7 max8 zip" onBlur={ props.checkValidation } onChange={ props.checkValidation } defaultValue={ props.data.step2.formData.zip } onKeyUp={ onKeyUpCheckValue }/>
+            { !(props.data.step2.message.zip)? "": <p className="errmsg">{ props.data.step2.message.zip }</p> }
             
             <label htmlFor="tel">電話番号 <span className="required">必須</span></label>
-            <input type="tel" name="tel" id="tel" className={props.data.formData.tel ? "" : "input_required"} data-validation="required tel" onBlur={ props.checkValidation } onChange={ props.checkValidation } defaultValue={ props.data.formData.tel } onKeyUp={ onKeyUpCheckValue }/>
-            { !(props.data.message.tel)? "": <p className="errmsg">{ props.data.message.tel }</p> }
+            <input type="tel" name="tel" id="tel" className={props.data.step2.formData.tel ? "" : "input_required"} data-validation="required tel" onBlur={ props.checkValidation } onChange={ props.checkValidation } defaultValue={ props.data.step2.formData.tel } onKeyUp={ onKeyUpCheckValue }/>
+            { !(props.data.step2.message.tel)? "": <p className="errmsg">{ props.data.step2.message.tel }</p> }
             
             <label htmlFor="prefecture">都道府県 <span className="required">必須</span></label>
-            <select name="prefecture" id="prefecture" data-validation="required" onBlur={ props.checkValidation } onChange={ props.checkValidation } defaultValue={ props.data.formData.prefecture }>
+            <select name="prefecture" id="prefecture" data-validation="required" onBlur={ props.checkValidation } onChange={ props.checkValidation } defaultValue={ props.data.step2.formData.prefecture }>
                 <option value="">選択してください</option>
                 {prefecture.map((pre, key) =>{
                     return <option key={key} value={pre}>{pre}</option>
                 })}
             </select>
-            { !(props.data.message.prefecture)? "": <p className="errmsg">{ props.data.message.prefecture }</p> }
+            { !(props.data.step2.message.prefecture)? "": <p className="errmsg">{ props.data.step2.message.prefecture }</p> }
             
             <label>性別 <span className="required">必須</span></label>
             <div className="cr_box">
-                <label htmlFor="gender_m" className={`cr_box_label ${ props.data.formData.gender === "0" ? "checked" : "" }`} onClick={ onClickLabelChange }>男</label>
-                <label htmlFor="gender_f"  className={`cr_box_label ${ props.data.formData.gender === "1" ? "checked" : "" }`} onClick={ onClickLabelChange }>女</label>
-                <input type="radio" id="gender_m" name="gender" data-validation="required" value="0" onChange={ props.checkValidation } defaultChecked={props.data.formData.gender === "0" ? true : false}/>    
-                <input type="radio" id="gender_f" name="gender" data-validation="required" value="1" onChange={ props.checkValidation } defaultChecked={props.data.formData.gender === "1" ? true : false}/>
+                <label htmlFor="gender_m" className={`cr_box_label ${ props.data.step2.formData.gender === "0" ? "checked" : "" }`} onClick={ onClickLabelChange }>男</label>
+                <label htmlFor="gender_f"  className={`cr_box_label ${ props.data.step2.formData.gender === "1" ? "checked" : "" }`} onClick={ onClickLabelChange }>女</label>
+                <input type="radio" id="gender_m" name="gender" data-validation="required" value="0" onChange={ props.checkValidation } defaultChecked={props.data.step2.formData.gender === "0" ? true : false}/>    
+                <input type="radio" id="gender_f" name="gender" data-validation="required" value="1" onChange={ props.checkValidation } defaultChecked={props.data.step2.formData.gender === "1" ? true : false}/>
             </div>
             
             <label>派閥</label>
             <div className="cr_box">
-                <label htmlFor="faction_m" className={`cr_box_label ${ props.data.formData.faction === "0" ? "checked" : "" }`} onClick={ onClickLabelChange }>犬派</label>
-                <label htmlFor="faction_f"  className={`cr_box_label ${ props.data.formData.faction === "1" ? "checked" : "" }`} onClick={ onClickLabelChange }>猫派</label>
-                <input type="radio" id="faction_m" name="faction" data-validation="" value="0" onChange={ props.checkValidation } defaultChecked={props.data.formData.faction === "0" ? true : false}/>    
-                <input type="radio" id="faction_f" name="faction" data-validation="" value="1" onChange={ props.checkValidation } defaultChecked={props.data.formData.faction === "1" ? true : false}/>
+                <label htmlFor="faction_m" className={`cr_box_label ${ props.data.step2.formData.faction === "0" ? "checked" : "" }`} onClick={ onClickLabelChange }>犬派</label>
+                <label htmlFor="faction_f"  className={`cr_box_label ${ props.data.step2.formData.faction === "1" ? "checked" : "" }`} onClick={ onClickLabelChange }>猫派</label>
+                <input type="radio" id="faction_m" name="faction" data-validation="" value="0" onChange={ props.checkValidation } defaultChecked={props.data.step2.formData.faction === "0" ? true : false}/>    
+                <input type="radio" id="faction_f" name="faction" data-validation="" value="1" onChange={ props.checkValidation } defaultChecked={props.data.step2.formData.faction === "1" ? true : false}/>
             </div>
             
             <label>使用中のデバイス</label>
             <div className="cr_box">
-                <label><input type="checkbox" name="device" onChange={ props.checkValidation } data-validation="" value="iPhone" defaultChecked={props.data.formData.device.includes('iPhone') ? true : false}/> iPhone</label>
-                <label><input type="checkbox" name="device" onChange={ props.checkValidation } data-validation="" value="iPad" defaultChecked={props.data.formData.device.includes('iPad') ? true : false}/> iPad</label>
-                <label><input type="checkbox" name="device" onChange={ props.checkValidation } data-validation="" value="Mac" defaultChecked={props.data.formData.device.includes('Mac') ? true : false}/> Mac</label>
+                <label><input type="checkbox" name="device" onChange={ props.checkValidation } data-validation="" value="iPhone" defaultChecked={props.data.step2.formData.device.includes('iPhone') ? true : false}/> iPhone</label>
+                <label><input type="checkbox" name="device" onChange={ props.checkValidation } data-validation="" value="iPad" defaultChecked={props.data.step2.formData.device.includes('iPad') ? true : false}/> iPad</label>
+                <label><input type="checkbox" name="device" onChange={ props.checkValidation } data-validation="" value="Mac" defaultChecked={props.data.step2.formData.device.includes('Mac') ? true : false}/> Mac</label>
             </div>
             
             <label htmlFor="remarks">備考</label>
-            <textarea name="remarks" id="remarks" cols="30" rows="10" data-validation="max100" onChange={ props.checkValidation } defaultValue={ props.data.formData.remarks }></textarea>
-            { !(props.data.message.remarks)? "": <p className="errmsg">{ props.data.message.remarks }</p> }
+            <textarea name="remarks" id="remarks" cols="30" rows="10" data-validation="max100" onChange={ props.checkValidation } defaultValue={ props.data.step2.formData.remarks }></textarea>
+            { !(props.data.step2.message.remarks)? "": <p className="errmsg">{ props.data.step2.message.remarks }</p> }
             
             { remainsAnswer }
             

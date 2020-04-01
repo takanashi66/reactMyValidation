@@ -9,41 +9,82 @@ class App extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            formData: {
-                name: '',
-                date: '',
-                email: '',
-                zip: '',
-                tel: '',
-                prefecture: '',
-                gender: '',
-                faction: '',
-                device: '',
-                remarks: '',
+            step: 2,
+            step1: {
+                formData: {
+                    name: '',
+                    date: '',
+                    email: '',
+                    zip: '',
+                    tel: '',
+                    prefecture: '',
+                    gender: '',
+                    faction: '',
+                    device: '',
+                    remarks: '',
+                },
+                message: {
+                    name: '',
+                    date: '',
+                    email: '',
+                    zip: '',
+                    tel: '',
+                    prefecture: '',
+                    gender: '',
+                    faction: '',
+                    device: '',
+                    remarks: '',
+                },
+                hasError: {
+                    name: true,
+                    date: true,
+                    email: true,
+                    zip: true,
+                    tel: true,
+                    prefecture: true,
+                    gender: true,
+                    faction: false,
+                    device: false,
+                    remarks: false,//必須ではないのでfalse始まり
+                },
             },
-            message: {
-                name: '',
-                date: '',
-                email: '',
-                zip: '',
-                tel: '',
-                prefecture: '',
-                gender: '',
-                faction: '',
-                device: '',
-                remarks: '',
-            },
-            hasError: {
-                name: true,
-                date: true,
-                email: true,
-                zip: true,
-                tel: true,
-                prefecture: true,
-                gender: true,
-                faction: false,
-                device: false,
-                remarks: false,//必須ではないのでfalse始まり
+            step2: {
+                formData: {
+                    name: '',
+                    date: '',
+                    email: '',
+                    zip: '',
+                    tel: '',
+                    prefecture: '',
+                    gender: '',
+                    faction: '',
+                    device: '',
+                    remarks: '',
+                },
+                message: {
+                    name: '',
+                    date: '',
+                    email: '',
+                    zip: '',
+                    tel: '',
+                    prefecture: '',
+                    gender: '',
+                    faction: '',
+                    device: '',
+                    remarks: '',
+                },
+                hasError: {
+                    name: true,
+                    date: true,
+                    email: true,
+                    zip: true,
+                    tel: true,
+                    prefecture: true,
+                    gender: true,
+                    faction: false,
+                    device: false,
+                    remarks: false,//必須ではないのでfalse始まり
+                },
             },
             remainsAnswer: 7,
             disabled: true,
@@ -52,23 +93,27 @@ class App extends Component {
     }
     
     render(){
-        
-        // console.log(this.state.formData)
-        // console.log(this.state.message)
-        // console.log(this.state.hasError)
-        // console.log("disabled : " + this.state.disabled)
+        console.log("step1")
+        console.log(this.state.step1.formData)
+        console.log(this.state.step1.message)
+        console.log(this.state.step1.hasError)
+        console.log("step2")
+        console.log(this.state.step2.formData)
+        console.log(this.state.step2.message)
+        console.log(this.state.step2.hasError)
+        console.log("disabled : " + this.state.disabled)
         
         //エラーメッセージを格納する関数
         const setMessage = (inputName, errorMessage) =>{
             const message = {[inputName]: errorMessage}
-            const assignMessage = Object.assign(this.state.message, message)
+            const assignMessage = Object.assign(this.state[`step${this.state.step}`].message, message)
             this.setState({
                 message: assignMessage
             })
             
             if(errorMessage != ""){
                 const hasError = {[inputName]: true}
-                const assignHasError = Object.assign(this.state.hasError, hasError)
+                const assignHasError = Object.assign(this.state[`step${this.state.step}`].hasError, hasError)
                 this.setState({
                     hasError: assignHasError
                 })
@@ -78,13 +123,13 @@ class App extends Component {
         //valueを格納する関数
         const setForm = (inputName, formData) =>{
             const data = {[inputName]: formData}
-            const assigndData = Object.assign(this.state.formData, data)
+            const assigndData = Object.assign(this.state[`step${this.state.step}`].formData, data)
             this.setState({
                 formData: assigndData
             })
             
             const hasError = {[inputName]: false}
-            const assignHasError = Object.assign(this.state.hasError, hasError)
+            const assignHasError = Object.assign(this.state[`step${this.state.step}`].hasError, hasError)
             this.setState({
                 hasError: assignHasError
             })
@@ -298,7 +343,7 @@ class App extends Component {
             const getRemainsAnswer = () => {
                 let remainsAnswer = 0
                 
-                for (let [key, value] of Object.entries(this.state.hasError)) {
+                for (let [key, value] of Object.entries(this.state.step2.hasError)) {
                     if(value){
                         remainsAnswer += 1
                     }
@@ -311,7 +356,7 @@ class App extends Component {
                 remainsAnswer: getRemainsAnswer()
             })
             
-            if(!Object.values(this.state.hasError).includes(true)){
+            if(!Object.values(this.state.step2.hasError).includes(true)){
                 this.setState({disabled: false})
             }else{
                 this.setState({disabled: true})
